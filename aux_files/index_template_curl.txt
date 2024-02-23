@@ -1,0 +1,166 @@
+! curl -X PUT "http://elasticsearch:9200/_index_template/index-web-log"  -H 'Content-Type: application/json' -d' \
+{ \
+  "index_patterns": ["index-web-log-*"], \
+  "template": { \
+    "settings":{ \
+      "number_of_shards":3, \
+      "number_of_replicas":2, \
+      "index.lifecycle.name": "web-log-metrics-policy", \
+      "index.lifecycle.rollover_alias": "index-web-log" \
+    }, \
+    "aliases":{ \
+      "all_orders":{} \
+    }, \
+    "mappings": { \
+      	"properties": { \
+      	  "@timestamp": { \
+      		"type": "date" \
+      	  }, \
+      	  "ip": { \
+      		"type": "ip" \
+      	  }, \
+      	  "extension": { \
+      		"type": "keyword" \
+      	  }, \
+      	  "response": { \
+      		"type": "keyword" \
+      	  }, \
+      	  "geo": { \
+      		"properties": { \
+      		  "coordinates": { \
+      			"type": "geo_point" \
+      		  }, \
+      		  "src": { \
+      			"type": "keyword" \
+      		  }, \
+      		  "dest": { \
+      			"type": "keyword" \
+      		  }, \
+      		  "srcdest": { \
+      			"type": "text" \
+      		  } \
+      		} \
+      	  }, \
+      	  "@tags": { \
+      		"type": "text" \
+      	  }, \
+      	  "utc_time": { \
+      		"type": "date" \
+      	  }, \
+      	  "referer": { \
+      		"type": "text" \
+      	  }, \
+      	  "agent": { \
+      		"type": "text" \
+      	  }, \
+      	  "clientip": { \
+      		"type": "ip" \
+      	  }, \
+      	  "bytes": { \
+      		"type": "integer" \
+      	  }, \
+      	  "host": { \
+      		"type": "text" \
+      	  }, \
+      	  "request": { \
+      		"type": "text" \
+      	  }, \
+      	  "url": { \
+      		"type": "text" \
+      	  }, \
+      	  "@message": { \
+      		"type": "text" \
+      	  }, \
+      	  "spaces": { \
+      		"type": "text" \
+      	  }, \
+      	  "xss": { \
+      		"type": "text" \
+      	  }, \
+      	  "headings": { \
+      		"type": "text" \
+      	  }, \
+      	  "links": { \
+      		"type": "text" \
+      	  }, \
+      	  "relatedContent": { \
+      		"properties": { \
+      		  "url": { \
+      			"type": "text" \
+      		  }, \
+      		  "og:type": { \
+      			"type": "keyword" \
+      		  }, \
+      		  "og:title": { \
+      			"type": "text" \
+      		  }, \
+      		  "og:description": { \
+      			"type": "text" \
+      		  }, \
+      		  "og:url": { \
+      			"type": "text" \
+      		  }, \
+      		  "article:published_time": { \
+      			"type": "date" \
+      		  }, \
+      		  "article:modified_time": { \
+      			"type": "date" \
+      		  }, \
+      		  "article:section": { \
+      			"type": "keyword" \
+      		  }, \
+      		  "article:tag": { \
+      			"type": "keyword" \
+      		  }, \
+      		  "og:image": { \
+      			"type": "text" \
+      		  }, \
+      		  "og:image:height": { \
+      			"type": "integer" \
+      		  }, \
+      		  "og:image:width": { \
+      			"type": "integer" \
+      		  }, \
+      		  "og:site_name": { \
+      			"type": "keyword" \
+      		  }, \
+      		  "twitter:title": { \
+      			"type": "text" \
+      		  }, \
+      		  "twitter:description": { \
+      			"type": "text" \
+      		  }, \
+      		  "twitter:card": { \
+      			"type": "keyword" \
+      		  }, \
+      		  "twitter:image": { \
+      			"type": "text" \
+      		  }, \
+      		  "twitter:site": { \
+      			"type": "keyword" \
+      		  } \
+      		} \
+      	  }, \
+      	  "machine": { \
+      		"properties": { \
+      		  "os": { \
+      			"type": "keyword" \
+      		  }, \
+      		  "ram": { \
+      			"type": "long" \
+      		  } \
+      		} \
+      	  }, \
+      	  "@version": { \
+      		"type": "keyword" \
+      	  }, \
+      	  "memory": { \
+      		"type": "long" \
+      	  }, \
+      	  "phpmemory": { \
+      		"type": "long" \
+      	  } \
+      	} \
+    } \
+  } \
+}'

@@ -1,0 +1,282 @@
+GET /_cat/indices
+
+GET /index-web-log-*/_search
+
+GET /index-web-log-20240221/_search
+
+GET /index-web-log-20240222/_search
+
+GET /index-web-log-20240223/_search
+
+
+GET /index-web-log-*/_search
+{
+  "query": {
+    "match": {
+      "@tags": "error"
+    }
+  }
+}
+
+
+GET /index-web-log-*/_search
+{
+  "query": {
+    "match": {
+      "@tags": "success"
+    }
+  }
+}
+
+
+GET /index-web-log-*/_search
+{
+    "query": {
+        "bool": {
+            "should": [
+              { "match": { "bytes": 0 }}
+            ]
+        }
+    }
+}
+
+
+GET /index-web-log-*/_search
+{
+  "query": {
+    "bool": {
+      "filter": {
+        "geo_bounding_box": {
+          "geo.coordinates": {
+            "top_left": {
+              "lat": 40.0,
+              "lon": -74.0
+            },
+            "bottom_right": {
+              "lat": 34.0,
+              "lon": -84.0
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+POST index-web-log-*/_search
+{
+    "query": {
+        "wildcard" : {
+            "machine.os": "win*"
+        }
+    }
+}
+
+
+POST index-web-log-*/_search
+{
+    "query": {
+        "wildcard" : {
+            "machine.os": "ios*"
+        }
+    }
+}
+
+
+POST index-web-log-*/_search
+{
+    "query": {
+        "wildcard" : {
+            "machine.os": "osx*"
+        }
+    }
+}
+
+
+
+POST /index-web-log-*/_search
+{
+    "query": {
+        "wildcard" : {
+            "response" : "2*"
+        }
+    }
+}
+
+POST /index-web-log-*/_search
+{
+    "query": {
+        "wildcard" : {
+            "response" : "4*"
+        }
+    }
+}
+
+POST /index-web-log-*/_search
+{
+    "query": {
+        "wildcard" : {
+            "response" : "5*"
+        }
+    }
+}
+
+
+POST /index-web-log-*/_search
+{
+    "query": {
+        "range" : {
+            "bytes": {
+                "lte": "10000"
+              }
+        }
+    },
+    "sort": [
+      { "bytes": {"order": "asc" } }
+    ]
+}
+
+POST /index-web-log-*/_search
+{
+    "query": {
+        "range" : {
+            "bytes": {
+                "gte": "10000"
+              }
+        }
+    },
+    "sort": [
+      { "bytes": {"order": "desc" } }
+    ]
+}
+
+
+
+POST /index-web-log-*/_search
+{
+    "query": {
+        "range" : {
+            "machine.ram": {
+                "gte": "6000000000",
+                "lte": "12000000000"
+              }
+        }
+    },
+    "sort": [
+      { "machine.ram": {"order": "asc" } }
+    ]
+}
+
+
+POST /index-web-log-*/_search
+{
+    "query": {
+        "range" : {
+            "@timestamp": {
+                "gte": "2015-05-19",
+                "lte": "2015-05-20"
+              }
+        }
+    }
+}
+
+POST /index-web-log-*/_search
+{
+    "query": {
+        "range" : {
+            "utc_time": {
+                "gte": "2015-05-18",
+                "lte": "2015-05-18"
+              }
+        }
+    }
+}
+
+
+GET _analyze
+{
+  "text": ["<h3>bryan-o-connor</h5>", "http://www.slate.com/success/gemini-11"]
+}
+
+
+
+GET /index-web-log-*/_search
+{
+  "query": {
+    "match_phrase_prefix": {
+      "headings": {
+        "query": "twitter",
+        "max_expansions": 10
+      }
+    }
+  }
+}
+
+GET /index-web-log-*/_search
+{
+  "query": {
+    "match_phrase_prefix": {
+      "headings": {
+        "query": "www.slate",
+        "max_expansions": 10
+      }
+    }
+  }
+}
+
+GET /index-web-log-*/_search
+{
+  "query": {
+    "match_phrase_prefix": {
+      "headings": {
+        "query": "nytimes",
+        "max_expansions": 10
+      }
+    }
+  }
+}
+
+
+GET /index-web-log-*/_search?size=0
+{
+    "aggs" : {
+        "ext_agg" : {
+            "terms" : { "field" : "extension" } 
+        }
+    }
+}
+
+GET /index-web-log-*/_search?size=0
+{
+    "aggs" : {
+        "size_agg" : {
+            "range" : {
+                "field" : "bytes",
+                "ranges" : [
+                    { "to" : 5000 },
+                    { "from" : 5000, "to" : 10000 },
+                    { "from" : 10000 }
+                ]
+            }
+        }
+    }
+}
+
+POST /index-web-log-*/_search?size=0
+{
+    "aggs": {
+        "data_agg": {
+            "date_range": {
+                "field": "@timestamp",
+                "format": "yyyy-MM-dd",
+                "ranges": [
+                    { "to": "2015-05-19" }, 
+                    { "from": "2015-05-19" } 
+                ]
+            }
+        }
+    }
+}
+
+

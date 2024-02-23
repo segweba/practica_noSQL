@@ -1,0 +1,1 @@
+https://github.com/rafaelgarrote/datahack-nosql/raw/nosql-especial/workespecial/practica/data/logs.jsonl
